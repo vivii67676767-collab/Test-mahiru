@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahiru AI — となりの天使様</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ══════════════ SETUP API KEY ══════════════ -->
+<div id="setup-screen" class="screen active">
+  <div class="setup-card">
+    <div class="setup-avatar">
+      <img src="812.jpg" alt="Mahiru" />
+    </div>
+    <h1 class="setup-title">となりの天使様</h1>
+    <p class="setup-subtitle">Masukkan API Key untuk memulai</p>
+    <div class="input-group">
+      <label>Groq API Key <span class="badge">Fast</span></label>
+      <input type="password" id="groq-key" placeholder="gsk_..." />
+    </div>
+    <div class="input-group">
+      <label>Gemini API Key <span class="badge gem">Smart</span></label>
+      <input type="password" id="gemini-key" placeholder="AIza..." />
+    </div>
+    <div class="input-group">
+      <label>ElevenLabs API Key <span class="badge voice">Voice</span></label>
+      <input type="password" id="elevenlabs-key" placeholder="sk_..." />
+    </div>
+    <button class="btn-start" id="btn-start">
+      <span>Mulai Berbicara</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <p class="setup-note">API Key tersimpan secara lokal di browser kamu.</p>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN APP ══════════════ -->
+<div id="app-screen" class="screen">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="profile-mini">
+        <img src="812.jpg" alt="Mahiru" class="profile-pic-sm" />
+        <div>
+          <div class="profile-name">Mahiru</div>
+          <div class="profile-status"><span class="dot"></span>Online</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-mode="chat" id="nav-chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>Chat</span>
+      </button>
+      <button class="nav-btn" data-mode="voice" id="nav-voice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.1 1.15 2 2 0 012.11 1h3a2 2 0 012 1.72c.127.96.36 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <span>Voice Call</span>
+      </button>
+      <button class="nav-btn" data-mode="video" id="nav-video">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        <span>Video Call</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="btn-save" id="btn-save">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Simpan Chat
+      </button>
+      <button class="btn-reset" id="btn-reset">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Ganti API Key
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- ── CHAT MODE ── -->
+    <section class="mode-panel active" id="panel-chat">
+      <div class="chat-header">
+        <img src="812.jpg" alt="Mahiru" class="chat-avatar" />
+        <div>
+          <div class="chat-name">Shiina Mahiru</div>
+          <div class="chat-sub">tsundere angel next door ✦</div>
+        </div>
+        <div class="api-indicator" id="api-indicator">—</div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg ai">
+          <img src="812.jpg" alt="Mahiru" class="msg-avatar"/>
+          <div class="msg-bubble">
+            <p>...B-bukan berarti aku senang ngobrol sama kamu, ya. Aku cuma nggak ada kerjaan aja. Jadi... tanya aja kalau mau tanya sesuatu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <textarea id="chat-input" placeholder="Ketik pesanmu..." rows="1"></textarea>
+        <button class="btn-send" id="btn-send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── VOICE CALL MODE ── -->
+    <section class="mode-panel" id="panel-voice">
+      <div class="call-screen">
+        <div class="call-bg"></div>
+        <p class="call-label">Voice Call dengan Mahiru</p>
+        <div class="voice-avatar-wrap">
+          <div class="voice-ring ring1"></div>
+          <div class="voice-ring ring2"></div>
+          <div class="voice-ring ring3"></div>
+          <img src="812.jpg" alt="Mahiru" class="voice-avatar" id="voice-avatar-img"/>
+        </div>
+        <div class="call-status" id="voice-status">Mendengarkan kamu...</div>
+        <div class="voice-wave" id="voice-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VIDEO CALL MODE ── -->
+    <section class="mode-panel" id="panel-video">
+      <div class="video-screen">
+        <div class="video-bg"></div>
+        <p class="call-label">Video Call dengan Mahiru</p>
+        <div class="video-frame">
+          <img id="video-pose-img" src="1085.png" alt="Mahiru pose" class="video-pose"/>
+          <div class="video-emotion-tag" id="video-emotion-tag">😊 Senang</div>
+        </div>
+        <div class="call-status" id="video-status">Mendengarkan kamu...</div>
+        <div class="voice-wave" id="video-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner"></div>
+  <p>Mahiru sedang berpikir...</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
